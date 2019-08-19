@@ -44,13 +44,13 @@ function makeResponsive() {
     var chartGroup = svg.append("g")
         .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-    // Initial Params
+    // Initial Parameters
     var chosenXAxis = "poverty";
     var chosenYAxis = "healthcare";
 
     // function used for updating x-scale var upon click on axis label
     function xScale(testData, chosenXAxis) {
-        // create scales
+        // create x-axis scales
         var xLinearScale = d3.scaleLinear()
             .domain([d3.min(testData, d => d[chosenXAxis]) * 0.8,
             d3.max(testData, d => d[chosenXAxis]) * 1.2
@@ -61,7 +61,7 @@ function makeResponsive() {
 
     // function used for updating y-scale var upon click on axis label
     function yScale(testData, chosenYAxis) {
-        // create scales
+        // create y-axis scales
         var yLinearScale = d3.scaleLinear()
             .domain([d3.min(testData, d => d[chosenYAxis]) * 0.8,
             d3.max(testData, d => d[chosenYAxis]) * 1.2
@@ -71,10 +71,11 @@ function makeResponsive() {
     }
 
     // function used for updating xAxis var upon click on axis label
+    var dur = 3000
     function renderXAxis(newXScale, xAxis) {
         var bottomAxis = d3.axisBottom(newXScale);
         xAxis.transition()
-            .duration(1000)
+            .duration(dur)
             .call(bottomAxis);
         return xAxis;
     }
@@ -83,7 +84,7 @@ function makeResponsive() {
     function renderYAxis(newYScale, yAxis) {
         var leftAxis = d3.axisLeft(newYScale);
         yAxis.transition()
-            .duration(1000)
+            .duration(dur)
             .call(leftAxis);
         return yAxis;
     }
@@ -92,7 +93,7 @@ function makeResponsive() {
     // new circles when clicking on new axis
     function renderCircles(circlesGroup, newXScale, newYScale, chosenXAxis, chosenYAxis) {
         circlesGroup.transition()
-            .duration(1000)
+            .duration(dur)
             .attr("cx", d => newXScale(d[chosenXAxis]))
             .attr("cy", d => newYScale(d[chosenYAxis]));
         return circlesGroup;
@@ -102,7 +103,7 @@ function makeResponsive() {
     // new circles when clicking on new axis
     function renderText(textGroup, newXScale, newYScale, chosenXAxis, chosenYAxis) {
         textGroup.transition()
-            .duration(1000)
+            .duration(dur)
             .attr("x", d => newXScale(d[chosenXAxis]))
             .attr("y", d => newYScale(d[chosenYAxis])+6);
         return textGroup;
@@ -177,7 +178,7 @@ function makeResponsive() {
         var bottomAxis = d3.axisBottom(xLinearScale);
         var leftAxis = d3.axisLeft(yLinearScale);
 
-        // Step 4: Append Axes to the chart
+        // Step 4: Append axis to the chart
         // ==============================
         var xAxis = chartGroup.append("g")
             .classed("x-axis", true)
@@ -196,7 +197,7 @@ function makeResponsive() {
             .attr("cx", d => xLinearScale(d[chosenXAxis]))
             .attr("cy", d => yLinearScale(d[chosenYAxis]))
             .attr("r", "15")
-            .attr("fill", "skyblue")
+            .attr("fill", "navy")
             .attr("opacity", ".75");
 
         var textGroup = chartGroup.selectAll(".label")
